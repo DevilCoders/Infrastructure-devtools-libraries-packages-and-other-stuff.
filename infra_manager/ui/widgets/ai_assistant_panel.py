@@ -43,7 +43,7 @@ class AIAssistantPanel(QtWidgets.QWidget):
             item = QtWidgets.QListWidgetItem(
                 f"{assistant.name} — {assistant.specialization.title()}"
             )
-            item.setData(QtWidgets.Qt.UserRole, assistant)
+            item.setData(QtCore.Qt.UserRole, assistant)
             roster.addItem(item)
 
         roster.currentItemChanged.connect(
@@ -56,7 +56,7 @@ class AIAssistantPanel(QtWidgets.QWidget):
         layout.addWidget(splitter)
 
     def _render_assistant(self, item: QtWidgets.QListWidgetItem | None) -> str:
-        assistant = item.data(QtWidgets.Qt.UserRole) if item else None
+        assistant = item.data(QtCore.Qt.UserRole) if item else None
         if not assistant:
             return ""
         return (

@@ -42,7 +42,7 @@ Add the `--background <path>` argument to apply a custom background image that
 fills the window.
 
 The repository ships with a simulated state. Integrations with GitHub and
-GitLab can be implemented via the service layer in `src/infra_manager/services`.
+GitLab can be implemented via the service layer in `infra_manager/services`.
 
 ## Documentation
 

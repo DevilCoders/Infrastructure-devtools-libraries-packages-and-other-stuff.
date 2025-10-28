@@ -5,7 +5,7 @@ architecture or aesthetics.
 
 ## Add a New Automation Provider
 
-1. Create a class implementing `PipelineClient` in `src/infra_manager/services`.
+1. Create a class implementing `PipelineClient` in `infra_manager/services`.
 2. Connect the implementation to the `pipelineTriggered` signal from
    `PipelinePanel`.
 3. Display execution updates in `PipelinePanel.log_view` or route them to a
