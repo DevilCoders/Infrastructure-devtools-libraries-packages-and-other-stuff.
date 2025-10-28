@@ -4,7 +4,10 @@ Infra Manager Studio is a PySide6 based desktop application that brings a
 feature rich command center to infrastructure mono-repositories. The
 application focuses on GitHub and GitLab automation, CI/CD pipeline
 observability, and workflow orchestration within a cohesive hacker-inspired
-interface.
+interface. The latest release expands the cockpit with dozens of specialist
+modules, dynamically generated command center tabs, and a reusable capability
+panel that keeps critical telemetry, highlights, and automation hooks at your
+fingertips.
 
 ## Highlights
 
@@ -31,6 +34,12 @@ interface.
   previews before promoting to production pipelines.
 - **Modular architecture** – UI, service layer, and state management are
   decoupled for easy extension.
+- **Command center carousel** – fifty three command center descriptors drive
+  dynamic tab creation, each surfacing a dedicated capability panel with
+  status-bar aware focus cues and task automation shortcuts.
+- **Capability panel widgets** – shareable UI components present highlights,
+  metrics, and quick actions for every module, keeping workflows consistent as
+  you jump between features.
 
 ## Getting Started
 
@@ -43,6 +52,20 @@ fills the window.
 
 The repository ships with a simulated state. Integrations with GitHub and
 GitLab can be implemented via the service layer in `infra_manager/services`.
+
+### Exploring the expanded cockpit
+
+After launching the application you will see the Operations Cockpit stocked
+with more than fifty infrastructure modules and capability tabs. Each tab is
+generated from the seeded command center descriptors and renders a capability
+panel that highlights the module focus, recommended automations, and telemetry
+callouts. Switching between tabs updates the status bar with contextual
+insights so you can keep track of the active surface while navigating the
+expanded inventory.
+
+The Codebase Manager panel continues to provide a rich blend of module
+exploration, configuration forms, and profile matching tables so you can manage
+mono-repository automation side-by-side with the new cockpit experiences.
 
 ## Documentation
 
