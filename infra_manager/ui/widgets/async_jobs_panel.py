@@ -4,14 +4,14 @@ from __future__ import annotations
 import time
 from typing import Dict, Iterable
 
-from PySide6 import QtCore, QtWidgets
+from PyQt6 import QtCore, QtWidgets
 
 from ...core.state import AsyncJob
 
 
 class JobSignals(QtCore.QObject):
-    progress = QtCore.Signal(str, int)
-    finished = QtCore.Signal(str)
+    progress = QtCore.pyqtSignal(str, int)
+    finished = QtCore.pyqtSignal(str)
 
 
 class JobRunner(QtCore.QRunnable):

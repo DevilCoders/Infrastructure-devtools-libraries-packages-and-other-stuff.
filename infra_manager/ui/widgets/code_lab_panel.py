@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import Iterable
 
-from PySide6 import QtCore, QtWidgets
+from PyQt6 import QtCore, QtWidgets
 
 from ...core.state import CodeWorkspace
 
@@ -112,7 +112,7 @@ class CodeLabPanel(QtWidgets.QWidget):
 
 
 # Avoid circular import at runtime.
-from PySide6 import QtGui  # noqa: E402  (import after QtWidgets usage)
+from PyQt6 import QtGui  # noqa: E402  (import after QtWidgets usage)
 
 
 __all__ = ["CodeLabPanel"]

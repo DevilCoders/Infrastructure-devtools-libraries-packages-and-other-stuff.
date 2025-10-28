@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import Iterable
 
-from PySide6 import QtCore, QtWidgets
+from PyQt6 import QtCore, QtWidgets
 
 from ...core.state import AIWorkflow
 
@@ -54,7 +54,7 @@ class AIWorkflowPanel(QtWidgets.QWidget):
             "operations for deterministic execution after AI planning."
         )
         hint.setWordWrap(True)
-        hint.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
+        hint.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeft | QtCore.Qt.AlignmentFlag.AlignTop)
         hint.setStyleSheet("color: #C0C0C0;")
         layout.addWidget(hint)
 

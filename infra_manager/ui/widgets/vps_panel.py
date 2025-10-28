@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import Iterable
 
-from PySide6 import QtCore, QtWidgets
+from PyQt6 import QtCore, QtWidgets
 
 from ...core.state import VirtualServer
 
@@ -11,7 +11,7 @@ from ...core.state import VirtualServer
 class VPSPanel(QtWidgets.QGroupBox):
     """Manage VPS resources and lifecycle."""
 
-    serverActionRequested = QtCore.Signal(str, str)
+    serverActionRequested = QtCore.pyqtSignal(str, str)
 
     def __init__(self, servers: Iterable[VirtualServer]) -> None:
         super().__init__("VPS Fleet")

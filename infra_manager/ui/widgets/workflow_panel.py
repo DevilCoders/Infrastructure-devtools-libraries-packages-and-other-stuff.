@@ -3,13 +3,13 @@ from __future__ import annotations
 
 from typing import Iterable
 
-from PySide6 import QtCore, QtWidgets
+from PyQt6 import QtCore, QtWidgets
 
 
 class WorkflowPanel(QtWidgets.QGroupBox):
     """Display and request workflow runs."""
 
-    workflowRequested = QtCore.Signal(str)
+    workflowRequested = QtCore.pyqtSignal(str)
 
     def __init__(self, workflows: Iterable[str]) -> None:
         super().__init__("Workflows")

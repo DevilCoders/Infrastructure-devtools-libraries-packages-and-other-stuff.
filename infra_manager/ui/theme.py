@@ -5,7 +5,7 @@ from dataclasses import dataclass, replace
 from pathlib import Path
 from typing import Optional
 
-from PySide6 import QtCore, QtGui
+from PyQt6 import QtCore, QtGui
 
 
 @dataclass(frozen=True)
@@ -134,7 +134,7 @@ class Theme:
 
 
 try:
-    from PySide6 import QtWidgets
+    from PyQt6 import QtWidgets
 except ImportError:  # pragma: no cover - handled by runtime environment
     QtWidgets = None  # type: ignore
 

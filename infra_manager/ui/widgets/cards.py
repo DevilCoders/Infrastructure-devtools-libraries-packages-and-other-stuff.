@@ -1,7 +1,7 @@
 """Reusable card widgets."""
 from __future__ import annotations
 
-from PySide6 import QtCore, QtWidgets
+from PyQt6 import QtCore, QtWidgets
 
 
 class MetricCard(QtWidgets.QFrame):
@@ -18,11 +18,11 @@ class MetricCard(QtWidgets.QFrame):
         layout.setContentsMargins(18, 18, 18, 18)
 
         title_label = QtWidgets.QLabel(title.upper())
-        title_label.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
+        title_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeft | QtCore.Qt.AlignmentFlag.AlignVCenter)
         title_label.setStyleSheet("font-size: 12px; letter-spacing: 2px; color: rgba(255,255,255,0.6);")
 
         value_label = QtWidgets.QLabel(str(value))
-        value_label.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
+        value_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeft | QtCore.Qt.AlignmentFlag.AlignVCenter)
         value_label.setStyleSheet("font-size: 34px; font-weight: 600;")
 
         layout.addWidget(title_label)
@@ -35,7 +35,7 @@ class MetricCard(QtWidgets.QFrame):
         effect = QtWidgets.QGraphicsDropShadowEffect(self)
         effect.setBlurRadius(24)
         effect.setOffset(0, 0)
-        effect.setColor(QtCore.Qt.red)
+        effect.setColor(QtCore.Qt.GlobalColor.red)
         self.setGraphicsEffect(effect)
 
         animation = QtCore.QPropertyAnimation(effect, b"blurRadius", self)

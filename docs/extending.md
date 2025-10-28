@@ -86,7 +86,7 @@ architecture or aesthetics.
 
 - Use `fbs`, `PyInstaller`, or `Briefcase` to generate platform-specific
   installers.
-- Include `PySide6` in the build requirements and set the entry point to
+- Include `PyQt6` in the build requirements and set the entry point to
   `infra_manager.app:main`.
 
 ## Testing Strategy

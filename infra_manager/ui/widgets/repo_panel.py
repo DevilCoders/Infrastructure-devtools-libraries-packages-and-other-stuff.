@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import Iterable
 
-from PySide6 import QtCore, QtWidgets
+from PyQt6 import QtCore, QtWidgets
 
 from ...core.state import Repository
 
@@ -11,7 +11,7 @@ from ...core.state import Repository
 class RepositoryPanel(QtWidgets.QGroupBox):
     """Displays known repositories with metadata."""
 
-    repositorySelected = QtCore.Signal(Repository)
+    repositorySelected = QtCore.pyqtSignal(Repository)
 
     def __init__(self, repositories: Iterable[Repository]) -> None:
         super().__init__("Repositories")
@@ -26,7 +26,7 @@ class RepositoryPanel(QtWidgets.QGroupBox):
 
         for repo in self._repositories:
             item = QtWidgets.QListWidgetItem(f"{repo.name} · {repo.platform}")
-            item.setData(QtCore.Qt.UserRole, repo)
+            item.setData(QtCore.Qt.ItemDataRole.UserRole, repo)
             item.setToolTip(repo.description)
             self.list_widget.addItem(item)
 
@@ -49,7 +49,7 @@ class RepositoryPanel(QtWidgets.QGroupBox):
         item = self.list_widget.currentItem()
         if not item:
             return
-        repository = item.data(QtCore.Qt.UserRole)
+        repository = item.data(QtCore.Qt.ItemDataRole.UserRole)
         if repository:
             self.repositorySelected.emit(repository)
 
@@ -57,7 +57,7 @@ class RepositoryPanel(QtWidgets.QGroupBox):
         item = self.list_widget.currentItem()
         if not item:
             return
-        repository = item.data(QtCore.Qt.UserRole)
+        repository = item.data(QtCore.Qt.ItemDataRole.UserRole)
         if repository:
             self.repositorySelected.emit(repository)
 
@@ -66,7 +66,7 @@ class RepositoryPanel(QtWidgets.QGroupBox):
         if not item:
             QtWidgets.QMessageBox.information(self, "Tags", "Select a repository to view tags")
             return
-        repository = item.data(QtCore.Qt.UserRole)
+        repository = item.data(QtCore.Qt.ItemDataRole.UserRole)
         if repository:
             tags = ", ".join(repository.tags) or "No tags"
             QtWidgets.QMessageBox.information(self, repository.name, f"Tags: {tags}")
