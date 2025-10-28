@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import Iterable
 
-from PySide6 import QtCore, QtWidgets
+from PyQt6 import QtCore, QtWidgets
 
 from ...core.state import BatchProcess
 
@@ -30,8 +30,8 @@ class BatchPanel(QtWidgets.QWidget):
         self._table = QtWidgets.QTableWidget(len(self._processes), 4, self)
         self._table.setHorizontalHeaderLabels(["Process", "Items", "Status", "Progress"])
         self._table.horizontalHeader().setStretchLastSection(True)
-        self._table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
-        self._table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self._table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectionBehavior.SelectRows)
+        self._table.setEditTriggers(QtWidgets.QAbstractItemView.EditTrigger.NoEditTriggers)
 
         for row, process in enumerate(self._processes.values()):
             self._table.setItem(row, 0, QtWidgets.QTableWidgetItem(process.name))

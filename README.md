@@ -1,6 +1,6 @@
 # Infra Manager Studio
 
-Infra Manager Studio is a PySide6 based desktop application that brings a
+Infra Manager Studio is a PyQt6 based desktop application that brings a
 feature rich command center to infrastructure mono-repositories. The
 application focuses on GitHub and GitLab automation, CI/CD pipeline
 observability, and workflow orchestration within a cohesive hacker-inspired

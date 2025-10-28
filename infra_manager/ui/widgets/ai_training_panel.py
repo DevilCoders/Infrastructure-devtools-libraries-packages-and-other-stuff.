@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import Iterable
 
-from PySide6 import QtCore, QtWidgets
+from PyQt6 import QtCore, QtWidgets
 
 from ...core.state import AITrainingRun
 
@@ -34,7 +34,7 @@ class AITrainingPanel(QtWidgets.QWidget):
         tree.setRootIsDecorated(False)
         tree.setAlternatingRowColors(True)
         tree.setUniformRowHeights(True)
-        tree.header().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
+        tree.header().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
 
         for run in self._runs:
             item = QtWidgets.QTreeWidgetItem([run.name, run.dataset, run.status, run.metric])
@@ -47,7 +47,9 @@ class AITrainingPanel(QtWidgets.QWidget):
             "training bursts through automation scripts that call the AI service."
         )
         footer.setWordWrap(True)
-        footer.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
+        footer.setAlignment(
+            QtCore.Qt.AlignmentFlag.AlignLeft | QtCore.Qt.AlignmentFlag.AlignTop
+        )
         footer.setStyleSheet("color: #C0C0C0;")
         layout.addWidget(footer)
 

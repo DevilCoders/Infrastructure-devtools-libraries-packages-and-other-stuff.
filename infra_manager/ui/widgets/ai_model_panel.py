@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import Iterable
 
-from PySide6 import QtWidgets
+from PyQt6 import QtWidgets
 
 from ...core.state import AIModel
 
@@ -40,8 +40,8 @@ class AIModelPanel(QtWidgets.QWidget):
         ])
         table.horizontalHeader().setStretchLastSection(True)
         table.setRowCount(len(self._models))
-        table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
-        table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectionBehavior.SelectRows)
+        table.setEditTriggers(QtWidgets.QAbstractItemView.EditTrigger.NoEditTriggers)
         table.setAlternatingRowColors(True)
 
         for row, model in enumerate(self._models):

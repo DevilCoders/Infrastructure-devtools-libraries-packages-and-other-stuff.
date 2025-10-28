@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import Iterable
 
-from PySide6 import QtCore, QtWidgets
+from PyQt6 import QtCore, QtWidgets
 
 from ...core.state import ConfigurationTemplate
 
@@ -11,7 +11,7 @@ from ...core.state import ConfigurationTemplate
 class ConfigurationPanel(QtWidgets.QGroupBox):
     """Browse and edit advanced configuration templates."""
 
-    templateSelected = QtCore.Signal(ConfigurationTemplate)
+    templateSelected = QtCore.pyqtSignal(ConfigurationTemplate)
 
     def __init__(self, templates: Iterable[ConfigurationTemplate]) -> None:
         super().__init__("Advanced Configurations")

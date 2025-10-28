@@ -4,7 +4,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Iterable
 
-from PySide6 import QtCore, QtGui, QtWidgets
+from PyQt6 import QtCore, QtGui, QtWidgets
 
 from ..core.state import (
     ApplicationState,
@@ -290,7 +290,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def _select_background_image(self) -> None:
         file_dialog = QtWidgets.QFileDialog(self)
-        file_dialog.setFileMode(QtWidgets.QFileDialog.ExistingFile)
+        file_dialog.setFileMode(QtWidgets.QFileDialog.FileMode.ExistingFile)
         file_dialog.setNameFilters(["Images (*.png *.jpg *.jpeg)"])
         if file_dialog.exec():
             selected: Iterable[str] = file_dialog.selectedFiles()
@@ -308,25 +308,27 @@ class MainWindow(QtWidgets.QMainWindow):
         animation.setDuration(900)
         animation.setStartValue(0.0)
         animation.setEndValue(1.0)
-        animation.setEasingCurve(QtCore.QEasingCurve.InOutQuad)
-        animation.start(QtCore.QAbstractAnimation.DeleteWhenStopped)
+        animation.setEasingCurve(QtCore.QEasingCurve.Type.InOutQuad)
+        animation.start(QtCore.QAbstractAnimation.DeletionPolicy.DeleteWhenStopped)
 
     def _animate_palette(self) -> None:
         animation = QtCore.QVariantAnimation(self)
         animation.setDuration(600)
-        start_color = QtGui.QColor(self.palette().color(QtGui.QPalette.Window))
+        start_color = QtGui.QColor(
+            self.palette().color(QtGui.QPalette.ColorRole.Window)
+        )
         end_color = QtGui.QColor(self.theme.background_color)
         animation.setStartValue(start_color)
         animation.setEndValue(end_color)
 
         def update(value: QtGui.QColor) -> None:
             palette = self.palette()
-            palette.setColor(QtGui.QPalette.Window, value)
+            palette.setColor(QtGui.QPalette.ColorRole.Window, value)
             self.setPalette(palette)
 
         animation.valueChanged.connect(update)
         animation.finished.connect(lambda: self.theme.apply(self))
-        animation.start(QtCore.QAbstractAnimation.DeleteWhenStopped)
+        animation.start(QtCore.QAbstractAnimation.DeletionPolicy.DeleteWhenStopped)
 
     # ------------------------------------------------------------------
     def _on_repository_selected(self, repository: Repository) -> None:

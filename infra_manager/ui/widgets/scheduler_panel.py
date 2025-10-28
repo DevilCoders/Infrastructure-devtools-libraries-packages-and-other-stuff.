@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import Iterable
 
-from PySide6 import QtWidgets
+from PyQt6 import QtWidgets
 
 from ...core.state import CronSchedule
 
@@ -31,7 +31,7 @@ class SchedulerPanel(QtWidgets.QWidget):
         table.setHorizontalHeaderLabels(["Schedule", "Expression", "Command", "Enabled"])
         table.horizontalHeader().setStretchLastSection(True)
         table.verticalHeader().setVisible(False)
-        table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        table.setEditTriggers(QtWidgets.QAbstractItemView.EditTrigger.NoEditTriggers)
 
         for row, schedule in enumerate(self._schedules):
             table.setItem(row, 0, QtWidgets.QTableWidgetItem(schedule.name))

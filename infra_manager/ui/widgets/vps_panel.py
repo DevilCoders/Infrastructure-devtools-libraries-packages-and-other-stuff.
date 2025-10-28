@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import Iterable
 
-from PySide6 import QtCore, QtWidgets
+from PyQt6 import QtCore, QtWidgets
 
 from ...core.state import VirtualServer
 
@@ -11,7 +11,7 @@ from ...core.state import VirtualServer
 class VPSPanel(QtWidgets.QGroupBox):
     """Manage VPS resources and lifecycle."""
 
-    serverActionRequested = QtCore.Signal(str, str)
+    serverActionRequested = QtCore.pyqtSignal(str, str)
 
     def __init__(self, servers: Iterable[VirtualServer]) -> None:
         super().__init__("VPS Fleet")
@@ -24,9 +24,9 @@ class VPSPanel(QtWidgets.QGroupBox):
         self.table = QtWidgets.QTableWidget(len(self._servers), 5, self)
         self.table.setHorizontalHeaderLabels(["Name", "Provider", "CPU", "Memory", "Status"])
         self.table.horizontalHeader().setStretchLastSection(True)
-        self.table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
-        self.table.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
-        self.table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectionBehavior.SelectRows)
+        self.table.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.SingleSelection)
+        self.table.setEditTriggers(QtWidgets.QAbstractItemView.EditTrigger.NoEditTriggers)
 
         for row, server in enumerate(self._servers):
             self.table.setItem(row, 0, QtWidgets.QTableWidgetItem(server.name))

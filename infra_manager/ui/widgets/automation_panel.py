@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import Iterable
 
-from PySide6 import QtCore, QtWidgets
+from PyQt6 import QtCore, QtWidgets
 
 from ...core.state import AutomationScript
 
@@ -18,14 +18,14 @@ class AutomationPanel(QtWidgets.QWidget):
 
     def _build_ui(self) -> None:
         splitter = QtWidgets.QSplitter(self)
-        splitter.setOrientation(QtCore.Qt.Horizontal)
+        splitter.setOrientation(QtCore.Qt.Orientation.Horizontal)
 
         tree = QtWidgets.QTreeWidget(splitter)
         tree.setColumnCount(4)
         tree.setHeaderLabels(["Script", "Language", "Target", "Summary"])
         tree.setRootIsDecorated(False)
         tree.setAlternatingRowColors(True)
-        tree.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        tree.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectionBehavior.SelectRows)
         tree.setUniformRowHeights(True)
 
         for script in self._scripts:

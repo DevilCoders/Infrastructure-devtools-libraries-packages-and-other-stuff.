@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import Iterable
 
-from PySide6 import QtCore, QtWidgets
+from PyQt6 import QtCore, QtWidgets
 
 from ...core.state import AIWorkflow
 
@@ -34,7 +34,7 @@ class AIWorkflowPanel(QtWidgets.QWidget):
         tree.setRootIsDecorated(False)
         tree.setAlternatingRowColors(True)
         tree.setUniformRowHeights(True)
-        tree.header().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
+        tree.header().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
 
         for workflow in self._workflows:
             item = QtWidgets.QTreeWidgetItem(
@@ -54,7 +54,9 @@ class AIWorkflowPanel(QtWidgets.QWidget):
             "operations for deterministic execution after AI planning."
         )
         hint.setWordWrap(True)
-        hint.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
+        hint.setAlignment(
+            QtCore.Qt.AlignmentFlag.AlignLeft | QtCore.Qt.AlignmentFlag.AlignTop
+        )
         hint.setStyleSheet("color: #C0C0C0;")
         layout.addWidget(hint)
 

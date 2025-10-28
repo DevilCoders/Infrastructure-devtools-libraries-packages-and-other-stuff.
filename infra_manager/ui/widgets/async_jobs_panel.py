@@ -4,14 +4,14 @@ from __future__ import annotations
 import time
 from typing import Dict, Iterable
 
-from PySide6 import QtCore, QtWidgets
+from PyQt6 import QtCore, QtWidgets
 
 from ...core.state import AsyncJob
 
 
 class JobSignals(QtCore.QObject):
-    progress = QtCore.Signal(str, int)
-    finished = QtCore.Signal(str)
+    progress = QtCore.pyqtSignal(str, int)
+    finished = QtCore.pyqtSignal(str)
 
 
 class JobRunner(QtCore.QRunnable):
@@ -22,7 +22,7 @@ class JobRunner(QtCore.QRunnable):
         self.job = job
         self.signals = JobSignals()
 
-    @QtCore.Slot()
+    @QtCore.pyqtSlot()
     def run(self) -> None:
         self.job.status = "running"
         for pct in range(self.job.progress, 101, 20):
@@ -54,8 +54,8 @@ class AsyncJobsPanel(QtWidgets.QWidget):
         self._table = QtWidgets.QTableWidget(len(self._jobs), 4, self)
         self._table.setHorizontalHeaderLabels(["Job", "Mode", "Status", "Progress"])
         self._table.horizontalHeader().setStretchLastSection(True)
-        self._table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
-        self._table.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self._table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectionBehavior.SelectRows)
+        self._table.setEditTriggers(QtWidgets.QAbstractItemView.EditTrigger.NoEditTriggers)
 
         for row, job in enumerate(self._jobs.values()):
             self._row_index[job.name] = row
@@ -91,7 +91,7 @@ class AsyncJobsPanel(QtWidgets.QWidget):
         self._status.setText(f"Running {job.name} on {job.mode}")
         self._thread_pool.start(runner)
 
-    @QtCore.Slot(str, int)
+    @QtCore.pyqtSlot(str, int)
     def _on_progress(self, name: str, value: int) -> None:
         job = self._jobs[name]
         job.progress = value
@@ -103,7 +103,7 @@ class AsyncJobsPanel(QtWidgets.QWidget):
         if status_item:
             status_item.setText("running")
 
-    @QtCore.Slot(str)
+    @QtCore.pyqtSlot(str)
     def _on_finished(self, name: str) -> None:
         job = self._jobs[name]
         job.status = "complete"

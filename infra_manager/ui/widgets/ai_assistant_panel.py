@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import Iterable
 
-from PySide6 import QtCore, QtWidgets
+from PyQt6 import QtCore, QtWidgets
 
 from ...core.state import AIAssistant
 
@@ -31,10 +31,10 @@ class AIAssistantPanel(QtWidgets.QWidget):
         layout.addWidget(header)
 
         splitter = QtWidgets.QSplitter(self)
-        splitter.setOrientation(QtCore.Qt.Horizontal)
+        splitter.setOrientation(QtCore.Qt.Orientation.Horizontal)
 
         roster = QtWidgets.QListWidget(splitter)
-        roster.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        roster.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.SingleSelection)
         roster.setAlternatingRowColors(True)
 
         detail = QtWidgets.QTextBrowser(splitter)

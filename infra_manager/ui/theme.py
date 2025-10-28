@@ -5,7 +5,7 @@ from dataclasses import dataclass, replace
 from pathlib import Path
 from typing import Optional
 
-from PySide6 import QtCore, QtGui
+from PyQt6 import QtCore, QtGui, QtWidgets
 
 
 @dataclass(frozen=True)
@@ -106,37 +106,31 @@ class Theme:
 
     def palette(self) -> QtGui.QPalette:
         palette = QtGui.QPalette()
-        palette.setColor(QtGui.QPalette.Window, QtGui.QColor(self.background_color))
-        palette.setColor(QtGui.QPalette.WindowText, QtGui.QColor(self.text_color))
-        palette.setColor(QtGui.QPalette.Base, QtGui.QColor(self.card_color))
-        palette.setColor(QtGui.QPalette.AlternateBase, QtGui.QColor(self.card_color))
-        palette.setColor(QtGui.QPalette.ToolTipBase, QtGui.QColor(self.card_color))
-        palette.setColor(QtGui.QPalette.ToolTipText, QtGui.QColor(self.text_color))
-        palette.setColor(QtGui.QPalette.Text, QtGui.QColor(self.text_color))
-        palette.setColor(QtGui.QPalette.Button, QtGui.QColor(self.card_color))
-        palette.setColor(QtGui.QPalette.ButtonText, QtGui.QColor(self.text_color))
-        palette.setColor(QtGui.QPalette.Highlight, QtGui.QColor(self.accent_color))
-        palette.setColor(QtGui.QPalette.HighlightedText, QtGui.QColor("white"))
+        palette.setColor(QtGui.QPalette.ColorRole.Window, QtGui.QColor(self.background_color))
+        palette.setColor(QtGui.QPalette.ColorRole.WindowText, QtGui.QColor(self.text_color))
+        palette.setColor(QtGui.QPalette.ColorRole.Base, QtGui.QColor(self.card_color))
+        palette.setColor(QtGui.QPalette.ColorRole.AlternateBase, QtGui.QColor(self.card_color))
+        palette.setColor(QtGui.QPalette.ColorRole.ToolTipBase, QtGui.QColor(self.card_color))
+        palette.setColor(QtGui.QPalette.ColorRole.ToolTipText, QtGui.QColor(self.text_color))
+        palette.setColor(QtGui.QPalette.ColorRole.Text, QtGui.QColor(self.text_color))
+        palette.setColor(QtGui.QPalette.ColorRole.Button, QtGui.QColor(self.card_color))
+        palette.setColor(QtGui.QPalette.ColorRole.ButtonText, QtGui.QColor(self.text_color))
+        palette.setColor(QtGui.QPalette.ColorRole.Highlight, QtGui.QColor(self.accent_color))
+        palette.setColor(QtGui.QPalette.ColorRole.HighlightedText, QtGui.QColor("white"))
         return palette
 
     def apply(self, widget: QtCore.QObject) -> None:
         """Apply the theme to a widget tree."""
 
-        if isinstance(widget, QtWidgets.QApplication):  # type: ignore[attr-defined]
+        if isinstance(widget, QtWidgets.QApplication):
             widget.setPalette(self.palette())
             widget.setStyleSheet(self.stylesheet())
-        elif isinstance(widget, QtWidgets.QWidget):  # type: ignore[attr-defined]
+        elif isinstance(widget, QtWidgets.QWidget):
             widget.setPalette(self.palette())
             widget.setStyleSheet(self.stylesheet())
 
     def with_background(self, path: Path) -> "Theme":
         return replace(self, background_image=path)
-
-
-try:
-    from PySide6 import QtWidgets
-except ImportError:  # pragma: no cover - handled by runtime environment
-    QtWidgets = None  # type: ignore
 
 
 __all__ = ["Theme"]
