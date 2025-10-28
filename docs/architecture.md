@@ -11,7 +11,7 @@ src/
     ├── app.py                # Application entry point and bootstrapping
     ├── core/                 # State management and domain models
     ├── services/             # External integrations (GitHub, GitLab, etc.)
-    └── ui/                   # UI components built with PySide6
+    └── ui/                   # UI components built with PyQt6
         ├── main_window.py    # Top level window composition
         ├── theme.py          # Styling primitives and palette helpers
         └── widgets/          # Reusable widgets and panels

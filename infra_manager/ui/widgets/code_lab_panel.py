@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import Iterable
 
-from PySide6 import QtCore, QtWidgets
+from PyQt6 import QtCore, QtWidgets
 
 from ...core.state import CodeWorkspace
 
@@ -53,7 +53,7 @@ class CodeLabPanel(QtWidgets.QWidget):
         layout.addWidget(self._description)
 
         self._editor = QtWidgets.QPlainTextEdit(self)
-        self._editor.setWordWrapMode(QtGui.QTextOption.NoWrap)
+        self._editor.setWordWrapMode(QtGui.QTextOption.WrapMode.NoWrap)
         self._editor.setTabStopDistance(4 * self.fontMetrics().horizontalAdvance(" "))
         layout.addWidget(self._editor, 1)
 
@@ -112,7 +112,7 @@ class CodeLabPanel(QtWidgets.QWidget):
 
 
 # Avoid circular import at runtime.
-from PySide6 import QtGui  # noqa: E402  (import after QtWidgets usage)
+from PyQt6 import QtGui  # noqa: E402  (import after QtWidgets usage)
 
 
 __all__ = ["CodeLabPanel"]

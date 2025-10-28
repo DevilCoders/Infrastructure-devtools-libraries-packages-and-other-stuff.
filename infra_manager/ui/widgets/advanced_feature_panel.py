@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import Iterable
 
-from PySide6 import QtWidgets
+from PyQt6 import QtWidgets
 
 from ...core.state import AdvancedFeature
 
@@ -42,8 +42,8 @@ class AdvancedFeaturePanel(QtWidgets.QWidget):
             tree.addTopLevelItem(item)
 
         tree.header().setStretchLastSection(True)
-        tree.header().setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeToContents)
-        tree.header().setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)
+        tree.header().setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+        tree.header().setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
         layout.addWidget(tree)
 
 

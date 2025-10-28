@@ -4,7 +4,7 @@ from __future__ import annotations
 import time
 from typing import Dict, Iterable
 
-from PySide6 import QtCore, QtWidgets
+from PyQt6 import QtCore, QtWidgets
 
 from ...core.state import AsyncJob
 

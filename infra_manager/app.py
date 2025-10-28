@@ -4,7 +4,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Optional
 
-from PySide6 import QtWidgets
+from PyQt6 import QtWidgets
 
 from .core.state import ApplicationState
 from .ui.main_window import MainWindow
