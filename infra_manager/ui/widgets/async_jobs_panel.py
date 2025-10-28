@@ -4,14 +4,15 @@ from __future__ import annotations
 import time
 from typing import Dict, Iterable
 
-from PySide6 import QtCore, QtWidgets
+from PyQt6 import QtCore, QtWidgets
+from PyQt6.QtCore import pyqtSignal, pyqtSlot
 
 from ...core.state import AsyncJob
 
 
 class JobSignals(QtCore.QObject):
-    progress = QtCore.Signal(str, int)
-    finished = QtCore.Signal(str)
+    progress = pyqtSignal(str, int)
+    finished = pyqtSignal(str)
 
 
 class JobRunner(QtCore.QRunnable):
@@ -22,7 +23,7 @@ class JobRunner(QtCore.QRunnable):
         self.job = job
         self.signals = JobSignals()
 
-    @QtCore.Slot()
+    @pyqtSlot()
     def run(self) -> None:
         self.job.status = "running"
         for pct in range(self.job.progress, 101, 20):
@@ -91,7 +92,7 @@ class AsyncJobsPanel(QtWidgets.QWidget):
         self._status.setText(f"Running {job.name} on {job.mode}")
         self._thread_pool.start(runner)
 
-    @QtCore.Slot(str, int)
+    @pyqtSlot(str, int)
     def _on_progress(self, name: str, value: int) -> None:
         job = self._jobs[name]
         job.progress = value
@@ -103,7 +104,7 @@ class AsyncJobsPanel(QtWidgets.QWidget):
         if status_item:
             status_item.setText("running")
 
-    @QtCore.Slot(str)
+    @pyqtSlot(str)
     def _on_finished(self, name: str) -> None:
         job = self._jobs[name]
         job.status = "complete"

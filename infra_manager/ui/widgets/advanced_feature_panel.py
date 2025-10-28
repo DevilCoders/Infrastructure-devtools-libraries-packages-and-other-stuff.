@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import Iterable
 
-from PySide6 import QtWidgets
+from PyQt6 import QtWidgets
 
 from ...core.state import AdvancedFeature
 

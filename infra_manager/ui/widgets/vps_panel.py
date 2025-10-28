@@ -3,7 +3,8 @@ from __future__ import annotations
 
 from typing import Iterable
 
-from PySide6 import QtCore, QtWidgets
+from PyQt6 import QtWidgets
+from PyQt6.QtCore import Qt, pyqtSignal
 
 from ...core.state import VirtualServer
 
@@ -11,7 +12,7 @@ from ...core.state import VirtualServer
 class VPSPanel(QtWidgets.QGroupBox):
     """Manage VPS resources and lifecycle."""
 
-    serverActionRequested = QtCore.Signal(str, str)
+    serverActionRequested = pyqtSignal(str, str)
 
     def __init__(self, servers: Iterable[VirtualServer]) -> None:
         super().__init__("VPS Fleet")
@@ -34,7 +35,7 @@ class VPSPanel(QtWidgets.QGroupBox):
             self.table.setItem(row, 2, QtWidgets.QTableWidgetItem(server.cpu))
             self.table.setItem(row, 3, QtWidgets.QTableWidgetItem(server.memory))
             status = QtWidgets.QTableWidgetItem(server.status.title())
-            status.setData(QtCore.Qt.ItemDataRole.UserRole, server.location)
+            status.setData(Qt.ItemDataRole.UserRole, server.location)
             self.table.setItem(row, 4, status)
 
         layout.addWidget(self.table)
@@ -59,7 +60,7 @@ class VPSPanel(QtWidgets.QGroupBox):
         location_item = self.table.item(row, 4)
         if not name_item or not location_item:
             return
-        location = location_item.data(QtCore.Qt.ItemDataRole.UserRole) or ""
+        location = location_item.data(Qt.ItemDataRole.UserRole) or ""
         self.serverActionRequested.emit(action, f"{name_item.text()}@{location}")
 
 

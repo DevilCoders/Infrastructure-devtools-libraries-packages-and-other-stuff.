@@ -3,7 +3,8 @@ from __future__ import annotations
 
 from typing import Iterable
 
-from PySide6 import QtCore, QtWidgets
+from PyQt6 import QtWidgets
+from PyQt6.QtCore import Qt, pyqtSignal
 
 from ...core.state import ConfigurationTemplate
 
@@ -11,7 +12,7 @@ from ...core.state import ConfigurationTemplate
 class ConfigurationPanel(QtWidgets.QGroupBox):
     """Browse and edit advanced configuration templates."""
 
-    templateSelected = QtCore.Signal(ConfigurationTemplate)
+    templateSelected = pyqtSignal(ConfigurationTemplate)
 
     def __init__(self, templates: Iterable[ConfigurationTemplate]) -> None:
         super().__init__("Advanced Configurations")
@@ -24,7 +25,7 @@ class ConfigurationPanel(QtWidgets.QGroupBox):
         self.list_widget = QtWidgets.QListWidget(self)
         for template in self._templates:
             item = QtWidgets.QListWidgetItem(f"{template.name} · {template.scope}")
-            item.setData(QtCore.Qt.ItemDataRole.UserRole, template)
+            item.setData(Qt.ItemDataRole.UserRole, template)
             self.list_widget.addItem(item)
         layout.addWidget(self.list_widget)
 
@@ -39,7 +40,7 @@ class ConfigurationPanel(QtWidgets.QGroupBox):
         if not current:
             self.editor.clear()
             return
-        template = current.data(QtCore.Qt.ItemDataRole.UserRole)
+        template = current.data(Qt.ItemDataRole.UserRole)
         if not template:
             self.editor.clear()
             return

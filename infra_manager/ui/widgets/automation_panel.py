@@ -3,7 +3,8 @@ from __future__ import annotations
 
 from typing import Iterable
 
-from PySide6 import QtCore, QtWidgets
+from PyQt6 import QtWidgets
+from PyQt6.QtCore import Qt
 
 from ...core.state import AutomationScript
 
@@ -18,7 +19,7 @@ class AutomationPanel(QtWidgets.QWidget):
 
     def _build_ui(self) -> None:
         splitter = QtWidgets.QSplitter(self)
-        splitter.setOrientation(QtCore.Qt.Horizontal)
+        splitter.setOrientation(Qt.Orientation.Horizontal)
 
         tree = QtWidgets.QTreeWidget(splitter)
         tree.setColumnCount(4)

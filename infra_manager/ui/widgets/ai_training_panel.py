@@ -3,7 +3,8 @@ from __future__ import annotations
 
 from typing import Iterable
 
-from PySide6 import QtCore, QtWidgets
+from PyQt6 import QtWidgets
+from PyQt6.QtCore import Qt
 
 from ...core.state import AITrainingRun
 
@@ -47,7 +48,7 @@ class AITrainingPanel(QtWidgets.QWidget):
             "training bursts through automation scripts that call the AI service."
         )
         footer.setWordWrap(True)
-        footer.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
+        footer.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)
         footer.setStyleSheet("color: #C0C0C0;")
         layout.addWidget(footer)
 

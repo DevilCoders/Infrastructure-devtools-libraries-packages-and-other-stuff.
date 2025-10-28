@@ -3,7 +3,8 @@ from __future__ import annotations
 
 from typing import Iterable
 
-from PySide6 import QtCore, QtWidgets
+from PyQt6 import QtWidgets
+from PyQt6.QtCore import Qt
 
 from ...core.state import PerformanceMetric
 
@@ -32,7 +33,7 @@ class PerformancePanel(QtWidgets.QGroupBox):
             self.table.setItem(row, 1, QtWidgets.QTableWidgetItem(metric.value))
             self.table.setItem(row, 2, QtWidgets.QTableWidgetItem(metric.trend))
             status_item = QtWidgets.QTableWidgetItem(metric.status.title())
-            status_item.setData(QtCore.Qt.ItemDataRole.UserRole, metric.status)
+            status_item.setData(Qt.ItemDataRole.UserRole, metric.status)
             self.table.setItem(row, 3, status_item)
 
         layout.addWidget(self.table)

@@ -3,7 +3,8 @@ from __future__ import annotations
 
 from typing import Iterable
 
-from PySide6 import QtCore, QtWidgets
+from PyQt6 import QtWidgets
+from PyQt6.QtCore import Qt
 
 from ...core.state import AITrainingProfile, DatasetAsset
 
@@ -34,7 +35,7 @@ class AILabPanel(QtWidgets.QWidget):
         title.setWordWrap(True)
         layout.addWidget(title)
 
-        splitter = QtWidgets.QSplitter(QtCore.Qt.Horizontal, self)
+        splitter = QtWidgets.QSplitter(Qt.Orientation.Horizontal, self)
         splitter.setChildrenCollapsible(False)
 
         splitter.addWidget(self._build_profile_panel())
@@ -84,7 +85,7 @@ class AILabPanel(QtWidgets.QWidget):
                     profile.fine_tuning,
                 ]
             )
-            item.setData(0, QtCore.Qt.UserRole, profile)
+            item.setData(0, Qt.ItemDataRole.UserRole, profile)
             item.setToolTip(0, profile.status)
             tree.addTopLevelItem(item)
 
@@ -127,7 +128,7 @@ class AILabPanel(QtWidgets.QWidget):
                     dataset.quality,
                 ]
             )
-            item.setData(0, QtCore.Qt.UserRole, dataset)
+            item.setData(0, Qt.ItemDataRole.UserRole, dataset)
             item.setToolTip(0, "Tasks: " + ", ".join(dataset.tasks))
             tree.addTopLevelItem(item)
 
@@ -161,7 +162,7 @@ class AILabPanel(QtWidgets.QWidget):
         if not items:
             self._profile_detail.clear()
             return
-        profile: AITrainingProfile = items[0].data(0, QtCore.Qt.UserRole)
+        profile: AITrainingProfile = items[0].data(0, Qt.ItemDataRole.UserRole)
         self._profile_detail.setHtml(
             f"""
             <h3 style='color:#FF3355;'>{profile.name}</h3>
@@ -180,7 +181,7 @@ class AILabPanel(QtWidgets.QWidget):
         if not items:
             self._dataset_detail.clear()
             return
-        dataset: DatasetAsset = items[0].data(0, QtCore.Qt.UserRole)
+        dataset: DatasetAsset = items[0].data(0, Qt.ItemDataRole.UserRole)
         tasks = "".join(f"<li>{task}</li>" for task in dataset.tasks)
         self._dataset_detail.setHtml(
             f"""

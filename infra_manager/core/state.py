@@ -316,6 +316,40 @@ class AdvancedFeature:
 
 
 @dataclass
+class CommandCenterTab:
+    """Descriptor for dynamically generated command center tabs."""
+
+    title: str
+    focus: str
+    description: str
+    highlights: List[str] = field(default_factory=list)
+    automations: List[str] = field(default_factory=list)
+
+
+@dataclass
+class CodebaseModule:
+    """Individual module or service contained within an infrastructure codebase."""
+
+    name: str
+    category: str
+    owner: str
+    status: str
+    coverage: int
+
+
+@dataclass
+class CodebaseProfile:
+    """Saved profile describing the relationship between a company and codebase."""
+
+    company: str
+    market_tier: str
+    project_manager: str
+    success_manager: str
+    active_modules: int
+    reliability_score: int
+
+
+@dataclass
 class ApplicationState:
     """Container for shared application state."""
 
@@ -351,6 +385,9 @@ class ApplicationState:
     dataset_assets: List[DatasetAsset] = field(default_factory=list)
     code_workspaces: List[CodeWorkspace] = field(default_factory=list)
     advanced_features: List[AdvancedFeature] = field(default_factory=list)
+    command_center_tabs: List[CommandCenterTab] = field(default_factory=list)
+    codebase_modules: List[CodebaseModule] = field(default_factory=list)
+    codebase_profiles: List[CodebaseProfile] = field(default_factory=list)
 
     @classmethod
     def load(cls) -> "ApplicationState":
@@ -683,6 +720,870 @@ class ApplicationState:
             AdvancedFeature("AI Runbook Partner", "AI", "Pair operators with context-aware assistants per task.", "alpha"),
             AdvancedFeature("Model Observatory", "AI", "Track custom in-house model health and training metrics.", "alpha"),
             AdvancedFeature("AI Workflow Forge", "AI", "Compose guardrailed automation blueprints for AI agents.", "alpha"),
+            AdvancedFeature("Failover Pattern Designer", "Resiliency", "Drag-and-drop multi-region failover schematics.", "alpha"),
+            AdvancedFeature("Kubernetes Playbook Composer", "Kubernetes", "Bundle manifests, tests, and docs for fleet rollouts.", "alpha"),
+            AdvancedFeature("Edge Blueprint Generator", "Edge", "Assemble latency-aware edge deployment kits.", "alpha"),
+            AdvancedFeature("FinOps Optimizer", "FinOps", "Model savings scenarios with live billing exports.", "alpha"),
+            AdvancedFeature("Policy-as-Code Reviewer", "Governance", "Simulate policy impact before rollout.", "alpha"),
+            AdvancedFeature("Chaos Automation Studio", "Resiliency", "Schedule blast radius experiments automatically.", "alpha"),
+            AdvancedFeature("Access Intelligence", "Security", "Recommend entitlement changes via ML.", "alpha"),
+            AdvancedFeature("Telemetry Storyboard", "Observability", "Author narrative dashboards with annotations.", "alpha"),
+            AdvancedFeature("Incident Heatmap", "SRE", "Visualize incident concentration across services.", "alpha"),
+            AdvancedFeature("Service Quality Forecaster", "Reliability", "Forecast SLO attainment using predictive models.", "alpha"),
+            AdvancedFeature("Release Risk Scanner", "CI/CD", "Score release trains using change surface heuristics.", "alpha"),
+            AdvancedFeature("Pipeline Carbon Tracker", "Sustainability", "Estimate carbon impact of CI/CD workloads.", "alpha"),
+            AdvancedFeature("Hybrid Cloud Director", "Cloud", "Route workloads to optimal provider on demand.", "alpha"),
+            AdvancedFeature("Edge Compliance Vault", "Edge", "Map regulatory controls to edge assets.", "alpha"),
+            AdvancedFeature("AI Safety Guardrails", "AI", "Enforce safety constraints on AI-driven automation.", "alpha"),
+            AdvancedFeature("Observability Pattern Library", "Observability", "Reuse curated alert and dashboard templates.", "alpha"),
+            AdvancedFeature("Automated Playbook Tester", "Automation", "Validate runbook steps in ephemeral sandboxes.", "alpha"),
+            AdvancedFeature("Contractor Access Gateway", "Security", "Just-in-time access with approvals and logging.", "alpha"),
+            AdvancedFeature("Developer Environment Sync", "Developer Experience", "Keep local envs aligned with infra baselines.", "alpha"),
+            AdvancedFeature("Blueprint Drift Scanner", "Architecture", "Compare implementation vs architecture intent.", "alpha"),
+            AdvancedFeature("Lifecycle Insights", "Operations", "Track maturity and lifecycle of infrastructure services.", "alpha"),
+            AdvancedFeature("SLA Composer", "Governance", "Generate and track service-level agreements.", "alpha"),
+            AdvancedFeature("Edge Telemetry Relay", "Edge", "Optimize transport for remote sensor data.", "alpha"),
+            AdvancedFeature("Global Change Calendar", "Change", "Resolve change conflicts across programs.", "alpha"),
+            AdvancedFeature("AI Incident Co-pilot", "AI", "Assist responders with contextual summaries and actions.", "alpha"),
+            AdvancedFeature("Resilience Score Engine", "Resiliency", "Score workloads against resilience patterns.", "alpha"),
+            AdvancedFeature("Platform KPI Board", "Analytics", "Unify KPIs across infra domains.", "alpha"),
+            AdvancedFeature("Service Catalog Curator", "Governance", "Curate golden service patterns with metadata checks.", "alpha"),
+            AdvancedFeature("Operator Learning Hub", "Enablement", "Deliver training paths tied to live systems.", "alpha"),
+            AdvancedFeature("AI Control Center", "AI", "Monitor AI agents, guardrails, and outcomes from one view.", "alpha"),
+            AdvancedFeature("Drift Remediation Planner", "Automation", "Batch recommended fixes for detected drift.", "alpha"),
+            AdvancedFeature("Runtime Policy Lab", "Governance", "Test runtime policy changes against simulations.", "alpha"),
+            AdvancedFeature("Tenant Experience Analyzer", "Tenancy", "Grade tenant workloads for stability and spend.", "alpha"),
+            AdvancedFeature("SRE Journal", "SRE", "Log operational learnings linked to incidents.", "alpha"),
+            AdvancedFeature("Pipeline Secret Auditor", "Security", "Detect and rotate exposed pipeline secrets.", "alpha"),
+            AdvancedFeature("Git Hygiene Monitor", "Developer Experience", "Track branch health and stale reviews.", "alpha"),
+            AdvancedFeature("Regulatory Readiness Board", "Compliance", "Map upcoming regulations to infra owners.", "alpha"),
+            AdvancedFeature("Green Data Center Planner", "Sustainability", "Suggest greener regions and hardware mixes.", "alpha"),
+            AdvancedFeature("Edge Latency Visualizer", "Edge", "Render live heatmaps of edge request latency.", "alpha"),
+            AdvancedFeature("AI Test Harness", "AI", "Continuously test AI agents against policy suites.", "alpha"),
+            AdvancedFeature("Cost Allocation Studio", "FinOps", "Allocate infra spend to teams with transparency.", "alpha"),
+            AdvancedFeature("Compliance Evidence Locker", "Compliance", "Store and attest evidence for audits automatically.", "alpha"),
+            AdvancedFeature("Upgrade Confidence Radar", "Change", "Measure risk envelope for upcoming upgrades.", "alpha"),
+            AdvancedFeature("Tenant Blueprint Advisor", "Tenancy", "Recommend best-fit blueprints per tenant mix.", "alpha"),
+            AdvancedFeature("Edge Firmware Courier", "Edge", "Stage and deliver firmware safely to remote fleets.", "alpha"),
+            AdvancedFeature("Observability Insight Coach", "Observability", "Guide teams toward actionable observability improvements.", "alpha"),
+            AdvancedFeature("Pipeline Queue Optimizer", "CI/CD", "Reduce pipeline wait times with adaptive scheduling.", "alpha"),
+            AdvancedFeature("Compliance Drift Predictor", "Compliance", "Forecast compliance drift using telemetry and policy history.", "alpha"),
+            AdvancedFeature("Platform Demand Forecaster", "Analytics", "Predict platform service demand growth across divisions.", "alpha"),
+            AdvancedFeature("Incident Action Synthesizer", "SRE", "Generate recommended actions from incident timelines.", "alpha"),
+        ]
+        state.codebase_modules = [
+            CodebaseModule("terraform/core-networking", "Terraform", "Platform Squad", "stable", 98),
+            CodebaseModule("terraform/edge-gateways", "Terraform", "Edge Guild", "attention", 86),
+            CodebaseModule("ansible/windows-fleet", "Ansible", "Workplace Ops", "stable", 91),
+            CodebaseModule("helm/service-mesh", "Kubernetes", "Service Mesh", "updating", 88),
+            CodebaseModule("python/compliance-auditor", "Automation", "Governance", "stable", 93),
+            CodebaseModule("bash/secrets-rotator", "Automation", "Security", "review", 84),
+            CodebaseModule("terraform/global-network-hub", "Terraform", "Network Platform", "stable", 95),
+            CodebaseModule("terraform/identity-platform", "Terraform", "Security", "stable", 94),
+            CodebaseModule("terraform/ai-foundations", "Terraform", "AI Platform", "updating", 89),
+            CodebaseModule("terraform/finops-guardrails", "Terraform", "FinOps", "stable", 92),
+            CodebaseModule("terraform/disaster-recovery", "Terraform", "Resilience", "review", 88),
+            CodebaseModule("terraform/observability-core", "Terraform", "Observability", "stable", 96),
+            CodebaseModule("terraform/data-lake", "Terraform", "Data Platform", "attention", 83),
+            CodebaseModule("terraform/hybrid-cloud", "Terraform", "Cloud Strategy", "planning", 80),
+            CodebaseModule("terraform/edge-cache", "Terraform", "Edge Guild", "stable", 90),
+            CodebaseModule("terraform/secrets-vault", "Terraform", "Security", "stable", 97),
+            CodebaseModule("ansible/linux-hardening", "Ansible", "Security", "stable", 94),
+            CodebaseModule("ansible/sql-cluster", "Ansible", "Data Platform", "attention", 82),
+            CodebaseModule("ansible/edge-iot", "Ansible", "Edge Guild", "review", 78),
+            CodebaseModule("ansible/windows-hardening", "Ansible", "Workplace Ops", "updating", 85),
+            CodebaseModule("ansible/logstash-agents", "Ansible", "Observability", "stable", 90),
+            CodebaseModule("ansible/service-accounts", "Ansible", "Identity", "stable", 92),
+            CodebaseModule("helm/payment-gateway", "Kubernetes", "Payments", "stable", 93),
+            CodebaseModule("helm/real-time-analytics", "Kubernetes", "Data Platform", "updating", 87),
+            CodebaseModule("helm/data-streaming", "Kubernetes", "Streaming", "stable", 91),
+            CodebaseModule("helm/observability-mesh", "Kubernetes", "Observability", "stable", 95),
+            CodebaseModule("helm/chaos-mesh", "Kubernetes", "Resilience", "review", 84),
+            CodebaseModule("helm/api-gateway", "Kubernetes", "Platform Squad", "stable", 96),
+            CodebaseModule("helm/feature-flags", "Kubernetes", "Developer Experience", "planning", 79),
+            CodebaseModule("kubernetes/operators/backups", "Kubernetes", "Resilience", "stable", 93),
+            CodebaseModule("kubernetes/operators/policy-engine", "Kubernetes", "Governance", "review", 85),
+            CodebaseModule("kubernetes/operators/hpa", "Kubernetes", "Performance", "stable", 94),
+            CodebaseModule("kubernetes/operators/argo", "Kubernetes", "GitOps", "stable", 96),
+            CodebaseModule("kubernetes/operators/ai-pipelines", "Kubernetes", "AI Platform", "updating", 88),
+            CodebaseModule("python/cli-toolkit", "Automation", "Developer Experience", "stable", 92),
+            CodebaseModule("python/metrics-ingestor", "Automation", "Observability", "stable", 95),
+            CodebaseModule("python/audit-service", "Automation", "Governance", "stable", 93),
+            CodebaseModule("python/drift-detector", "Automation", "Resilience", "stable", 94),
+            CodebaseModule("python/compliance-reporter", "Automation", "Compliance", "stable", 92),
+            CodebaseModule("python/incident-bot", "Automation", "SRE", "review", 83),
+            CodebaseModule("go/edge-proxy", "Services", "Edge Guild", "stable", 95),
+            CodebaseModule("go/deployment-coordinator", "Services", "Platform Squad", "stable", 94),
+            CodebaseModule("go/log-replicator", "Services", "Observability", "stable", 93),
+            CodebaseModule("go/security-scanner", "Services", "Security", "updating", 88),
+            CodebaseModule("go/policy-engine", "Services", "Governance", "review", 86),
+            CodebaseModule("go/service-mesh-proxy", "Services", "Service Mesh", "stable", 92),
+            CodebaseModule("rust/secret-manager", "Services", "Security", "stable", 96),
+            CodebaseModule("rust/metrics-pipeline", "Services", "Observability", "stable", 95),
+            CodebaseModule("rust/compliance-agent", "Services", "Compliance", "updating", 87),
+            CodebaseModule("javascript/admin-portal", "Web", "Developer Experience", "stable", 89),
+            CodebaseModule("javascript/telemetry-dashboard", "Web", "Observability", "stable", 91),
+            CodebaseModule("javascript/self-service-portal", "Web", "Platform Squad", "review", 82),
+            CodebaseModule("java/billing-adapter", "Services", "FinOps", "stable", 90),
+            CodebaseModule("java/order-sync", "Services", "Commerce", "stable", 92),
+            CodebaseModule("java/edge-control", "Services", "Edge Guild", "attention", 81),
+            CodebaseModule("java/incident-reporter", "Services", "SRE", "stable", 90),
+            CodebaseModule("packer/base-images", "Automation", "Platform Squad", "stable", 95),
+            CodebaseModule("packer/windows-images", "Automation", "Workplace Ops", "stable", 93),
+            CodebaseModule("dockerfiles/service-baselines", "Automation", "Platform Squad", "stable", 94),
+            CodebaseModule("dockerfiles/security-hardening", "Automation", "Security", "stable", 96),
+            CodebaseModule("docs/runbooks", "Enablement", "SRE", "stable", 98),
+            CodebaseModule("docs/architecture", "Enablement", "Architecture", "stable", 97),
+        ]
+        state.command_center_tabs = [
+            CommandCenterTab(
+                title="Fusion Deck",
+                focus="Cross-domain orchestration",
+                description="Blend repository, pipeline, and runtime signals for mission planning.",
+                highlights=[
+                    "Dynamic dependency graph",
+                    "Live release telemetry",
+                    "Environment guardrails overview",
+                ],
+                automations=[
+                    "Trigger orchestrated release wave",
+                    "Open compliance exception workflow",
+                ],
+            ),
+            CommandCenterTab(
+                title="Cluster Atlas",
+                focus="Multi-cluster oversight",
+                description="Map, grade, and benchmark every managed cluster footprint globally.",
+                highlights=[
+                    "Region heatmap",
+                    "Saturation thresholds",
+                    "Upgrade readiness scoring",
+                ],
+                automations=[
+                    "Plan rolling upgrade",
+                    "Initiate cluster quarantine",
+                ],
+            ),
+            CommandCenterTab(
+                title="Edge Mission Control",
+                focus="Edge network command",
+                description="Direct fleet upgrades and latency budgets for remote edge locations.",
+                highlights=[
+                    "Edge heartbeat timeline",
+                    "Latency SLA tracker",
+                    "Certificate expiry radar",
+                ],
+                automations=[
+                    "Push emergency hotfix",
+                    "Rebalance edge routing",
+                ],
+            ),
+            CommandCenterTab(
+                title="FinOps Arena",
+                focus="Cost governance",
+                description="Drive savings programs and visualize budget health across tenants.",
+                highlights=[
+                    "Spend anomaly pulses",
+                    "Commitment utilization",
+                    "Chargeback scorecard",
+                ],
+                automations=[
+                    "Launch savings experiment",
+                    "Notify budget owner",
+                ],
+            ),
+            CommandCenterTab(
+                title="Observability Hub",
+                focus="Telemetry intelligence",
+                description="Curate metrics, logs, and traces into unified operational narratives.",
+                highlights=[
+                    "Service golden signals",
+                    "Log ingest backlog",
+                    "Trace saturation index",
+                ],
+                automations=[
+                    "Tune retention profile",
+                    "Promote new dashboard",
+                ],
+            ),
+            CommandCenterTab(
+                title="Security Nexus",
+                focus="Security posture",
+                description="Monitor controls, threats, and policy attestations in one command view.",
+                highlights=[
+                    "Policy drift watch",
+                    "Credential leak monitor",
+                    "Zero trust coverage",
+                ],
+                automations=[
+                    "Initiate response playbook",
+                    "Escalate to duty officer",
+                ],
+            ),
+            CommandCenterTab(
+                title="Compliance Tower",
+                focus="Regulatory readiness",
+                description="Align regulations, evidence, and responsible owners for every program.",
+                highlights=[
+                    "Control effectiveness",
+                    "Upcoming audits",
+                    "Evidence freshness",
+                ],
+                automations=[
+                    "Collect missing evidence",
+                    "Assign remediation tasks",
+                ],
+            ),
+            CommandCenterTab(
+                title="Automation Forge",
+                focus="Workflow engineering",
+                description="Author, test, and stage automation scripts across mixed environments.",
+                highlights=[
+                    "Sandbox results",
+                    "Language coverage",
+                    "Approval queue",
+                ],
+                automations=[
+                    "Publish automation bundle",
+                    "Request peer review",
+                ],
+            ),
+            CommandCenterTab(
+                title="Runbook Studio",
+                focus="Operational excellence",
+                description="Catalog live runbooks, embed lessons, and share execution metrics.",
+                highlights=[
+                    "Drill readiness",
+                    "Automation coverage",
+                    "Execution history",
+                ],
+                automations=[
+                    "Schedule drill",
+                    "Propose automation candidate",
+                ],
+            ),
+            CommandCenterTab(
+                title="AI Orchestrator",
+                focus="AI operations",
+                description="Supervise AI agents, training runs, and guardrail compliance.",
+                highlights=[
+                    "Model health index",
+                    "Guardrail incidents",
+                    "Dataset lineage",
+                ],
+                automations=[
+                    "Launch tuning session",
+                    "Suspend agent",
+                ],
+            ),
+            CommandCenterTab(
+                title="Pipeline Arena",
+                focus="CI/CD acceleration",
+                description="Compare pipeline throughput, reliability, and action backlog.",
+                highlights=[
+                    "Stage duration trend",
+                    "Failed job clusters",
+                    "Approval lead time",
+                ],
+                automations=[
+                    "Reroute workload",
+                    "Open regression ticket",
+                ],
+            ),
+            CommandCenterTab(
+                title="Blueprint Gallery",
+                focus="Architecture governance",
+                description="Explore, rate, and rollout approved infrastructure blueprints.",
+                highlights=[
+                    "Lifecycle phase",
+                    "Adoption rate",
+                    "Dependency alerts",
+                ],
+                automations=[
+                    "Request blueprint review",
+                    "Launch adoption pilot",
+                ],
+            ),
+            CommandCenterTab(
+                title="Tenant Observatory",
+                focus="Tenant health",
+                description="Score tenant experience spanning reliability, cost, and compliance.",
+                highlights=[
+                    "SLO attainment",
+                    "Spend target",
+                    "Security posture",
+                ],
+                automations=[
+                    "Dispatch enablement kit",
+                    "Escalate to tenant owner",
+                ],
+            ),
+            CommandCenterTab(
+                title="Access Command",
+                focus="Identity oversight",
+                description="Govern access flows, approvals, and entitlements across platforms.",
+                highlights=[
+                    "JIT requests",
+                    "Expired access",
+                    "Break-glass audit",
+                ],
+                automations=[
+                    "Revoke stale access",
+                    "Publish new policy",
+                ],
+            ),
+            CommandCenterTab(
+                title="Incident Deck",
+                focus="Incident readiness",
+                description="Coordinate live incidents, retrospectives, and resilience investments.",
+                highlights=[
+                    "Active incidents",
+                    "Postmortem backlog",
+                    "Resilience roadmap",
+                ],
+                automations=[
+                    "Spin up war room",
+                    "Assign action items",
+                ],
+            ),
+            CommandCenterTab(
+                title="Change Council",
+                focus="Change management",
+                description="Balance change velocity with safety across platforms and services.",
+                highlights=[
+                    "Freeze windows",
+                    "Change collision",
+                    "Risk scoring",
+                ],
+                automations=[
+                    "Approve change",
+                    "Trigger safety scan",
+                ],
+            ),
+            CommandCenterTab(
+                title="Developer Nexus",
+                focus="Developer enablement",
+                description="Empower developers with paved paths, tooling, and learning modules.",
+                highlights=[
+                    "Path adoption",
+                    "Feedback sentiment",
+                    "Environment drift",
+                ],
+                automations=[
+                    "Launch onboarding quest",
+                    "Open enablement ticket",
+                ],
+            ),
+            CommandCenterTab(
+                title="Lifecycle Arcade",
+                focus="Service lifecycle",
+                description="Manage service maturity, ownership, and exit plans proactively.",
+                highlights=[
+                    "Lifecycle stage",
+                    "Owner alignment",
+                    "Decommission queue",
+                ],
+                automations=[
+                    "Schedule lifecycle review",
+                    "Request steward update",
+                ],
+            ),
+            CommandCenterTab(
+                title="Sustainability Lab",
+                focus="Environmental impact",
+                description="Track carbon impact and sustainability levers for infrastructure.",
+                highlights=[
+                    "Carbon trend",
+                    "Region efficiency",
+                    "Workload hotspots",
+                ],
+                automations=[
+                    "Optimize workload placement",
+                    "Share sustainability report",
+                ],
+            ),
+            CommandCenterTab(
+                title="Marketplace Console",
+                focus="Internal marketplace",
+                description="Curate internal products, APIs, and services with governance.",
+                highlights=[
+                    "Subscription metrics",
+                    "Feedback queues",
+                    "API adoption",
+                ],
+                automations=[
+                    "Publish new listing",
+                    "Archive deprecated offer",
+                ],
+            ),
+            CommandCenterTab(
+                title="Edge Sensorium",
+                focus="Edge telemetry",
+                description="Blend sensor signals, thresholds, and response cadences for IoT.",
+                highlights=[
+                    "Signal quality",
+                    "Alert clusters",
+                    "Maintenance backlog",
+                ],
+                automations=[
+                    "Dispatch field ops",
+                    "Adjust sampling policy",
+                ],
+            ),
+            CommandCenterTab(
+                title="Data Contracts",
+                focus="Data governance",
+                description="Manage producer/consumer contracts and enforce schema policies.",
+                highlights=[
+                    "Contract status",
+                    "Schema drift",
+                    "Consumer coverage",
+                ],
+                automations=[
+                    "Open contract review",
+                    "Notify stakeholders",
+                ],
+            ),
+            CommandCenterTab(
+                title="Resilience Theater",
+                focus="Resilience investments",
+                description="Plan and rank resilience bets across services and platforms.",
+                highlights=[
+                    "Investment backlog",
+                    "Coverage score",
+                    "Drill cadence",
+                ],
+                automations=[
+                    "Approve investment",
+                    "Schedule drill",
+                ],
+            ),
+            CommandCenterTab(
+                title="AI Ethics Desk",
+                focus="Responsible AI",
+                description="Oversee AI ethics reviews, appeals, and mitigation actions.",
+                highlights=[
+                    "Review queue",
+                    "Mitigation tracker",
+                    "Policy alignment",
+                ],
+                automations=[
+                    "Launch ethics review",
+                    "Escalate to council",
+                ],
+            ),
+            CommandCenterTab(
+                title="Vendor Command",
+                focus="Vendor governance",
+                description="Track critical vendors, integration health, and renewal risk.",
+                highlights=[
+                    "Contract status",
+                    "Incident impact",
+                    "Renewal runway",
+                ],
+                automations=[
+                    "Trigger vendor review",
+                    "Raise risk alert",
+                ],
+            ),
+            CommandCenterTab(
+                title="Secrets Vault",
+                focus="Secrets management",
+                description="Audit rotation health and usage across secret stores and apps.",
+                highlights=[
+                    "Rotation drift",
+                    "Secret sprawl",
+                    "Access anomalies",
+                ],
+                automations=[
+                    "Force rotate",
+                    "Lock down namespace",
+                ],
+            ),
+            CommandCenterTab(
+                title="Policy Arena",
+                focus="Policy-as-code",
+                description="Simulate, approve, and ship policy bundles safely at scale.",
+                highlights=[
+                    "Policy impact",
+                    "Compliance coverage",
+                    "Runtime variance",
+                ],
+                automations=[
+                    "Deploy policy bundle",
+                    "Open stakeholder review",
+                ],
+            ),
+            CommandCenterTab(
+                title="Release Observatory",
+                focus="Release governance",
+                description="Monitor release cadence, outcomes, and stability windows.",
+                highlights=[
+                    "Release calendar",
+                    "Rollback stats",
+                    "Change failure rate",
+                ],
+                automations=[
+                    "Pause release train",
+                    "Promote candidate",
+                ],
+            ),
+            CommandCenterTab(
+                title="Platform Pulse",
+                focus="Platform health",
+                description="Blend platform KPIs, sentiment, and dependency risk.",
+                highlights=[
+                    "Adoption trend",
+                    "Reliability score",
+                    "Top feedback",
+                ],
+                automations=[
+                    "Share pulse report",
+                    "Launch listening tour",
+                ],
+            ),
+            CommandCenterTab(
+                title="Capacity Command",
+                focus="Capacity planning",
+                description="Forecast compute, storage, and network demand with guardrails.",
+                highlights=[
+                    "Forecast delta",
+                    "Overcommit risk",
+                    "Scaling backlog",
+                ],
+                automations=[
+                    "Order capacity",
+                    "Trigger scaling plan",
+                ],
+            ),
+            CommandCenterTab(
+                title="DR Control",
+                focus="Disaster recovery",
+                description="Verify DR readiness and coordinate failover rehearsals.",
+                highlights=[
+                    "RPO compliance",
+                    "Failover drill score",
+                    "Runbook freshness",
+                ],
+                automations=[
+                    "Schedule DR drill",
+                    "Escalate gaps",
+                ],
+            ),
+            CommandCenterTab(
+                title="Ops Calendar",
+                focus="Operational cadence",
+                description="Align ops ceremonies, maintenance windows, and staffing.",
+                highlights=[
+                    "Staffing gaps",
+                    "Maintenance load",
+                    "Ceremony health",
+                ],
+                automations=[
+                    "Rebalance staffing",
+                    "Reschedule maintenance",
+                ],
+            ),
+            CommandCenterTab(
+                title="Insights Lab",
+                focus="Analytics and insights",
+                description="Synthesize insights from telemetry, feedback, and experiments.",
+                highlights=[
+                    "Experiment backlog",
+                    "Insight quality",
+                    "Decision tracker",
+                ],
+                automations=[
+                    "Publish insight",
+                    "Request deep dive",
+                ],
+            ),
+            CommandCenterTab(
+                title="Community Desk",
+                focus="Community of practice",
+                description="Amplify community contributions and rotate stewardship duties.",
+                highlights=[
+                    "Contribution leaderboard",
+                    "Mentorship roster",
+                    "Playbook backlog",
+                ],
+                automations=[
+                    "Nominate steward",
+                    "Schedule community sync",
+                ],
+            ),
+            CommandCenterTab(
+                title="Experiment Deck",
+                focus="Innovation pipeline",
+                description="Track innovation bets, prototypes, and learning milestones.",
+                highlights=[
+                    "Hypothesis status",
+                    "Pilot readiness",
+                    "Learning artifacts",
+                ],
+                automations=[
+                    "Advance experiment",
+                    "Archive learning",
+                ],
+            ),
+            CommandCenterTab(
+                title="Support Bay",
+                focus="Support operations",
+                description="Manage escalations, backlog, and service-level adherence.",
+                highlights=[
+                    "Escalation queue",
+                    "SLA breach risk",
+                    "Knowledge gaps",
+                ],
+                automations=[
+                    "Assign responder",
+                    "Publish knowledge article",
+                ],
+            ),
+            CommandCenterTab(
+                title="Risk Radar",
+                focus="Risk management",
+                description="Track open risks, mitigations, and executive visibility.",
+                highlights=[
+                    "Risk heatmap",
+                    "Mitigation progress",
+                    "Executive briefings",
+                ],
+                automations=[
+                    "Escalate risk",
+                    "Trigger mitigation task",
+                ],
+            ),
+            CommandCenterTab(
+                title="Observability Sandbox",
+                focus="Observability R&D",
+                description="Prototype telemetry stacks and validate instrumentation patterns.",
+                highlights=[
+                    "Pattern experiments",
+                    "Signal-to-noise",
+                    "Adoption backlog",
+                ],
+                automations=[
+                    "Publish pattern",
+                    "Request instrumentation",
+                ],
+            ),
+            CommandCenterTab(
+                title="Compliance Sandbox",
+                focus="Regulatory experimentation",
+                description="Test regulatory controls in safe sandboxes before production rollout.",
+                highlights=[
+                    "Control prototypes",
+                    "Audit feedback",
+                    "Policy backlog",
+                ],
+                automations=[
+                    "Promote control",
+                    "Notify compliance lead",
+                ],
+            ),
+            CommandCenterTab(
+                title="AI Lab Console",
+                focus="AI experimentation",
+                description="Pilot new AI workflows and evaluate outcomes against guardrails.",
+                highlights=[
+                    "Experiment roster",
+                    "Safety score",
+                    "Outcome variance",
+                ],
+                automations=[
+                    "Promote AI workflow",
+                    "Flag guardrail breach",
+                ],
+            ),
+            CommandCenterTab(
+                title="Partner Exchange",
+                focus="Partner integrations",
+                description="Coordinate partner integrations, SLAs, and shared success plans.",
+                highlights=[
+                    "Integration uptime",
+                    "Joint roadmap",
+                    "Escalation contacts",
+                ],
+                automations=[
+                    "Trigger partner sync",
+                    "Update joint plan",
+                ],
+            ),
+            CommandCenterTab(
+                title="Mobility Command",
+                focus="Workforce mobility",
+                description="Support remote workforce connectivity, devices, and compliance.",
+                highlights=[
+                    "Device health",
+                    "Connectivity incidents",
+                    "Policy exceptions",
+                ],
+                automations=[
+                    "Push device policy",
+                    "Alert mobility lead",
+                ],
+            ),
+            CommandCenterTab(
+                title="Lab Operations",
+                focus="Innovation labs",
+                description="Manage lab environments, reservations, and clean-room workflows.",
+                highlights=[
+                    "Reservation queue",
+                    "Environment hygiene",
+                    "Experiment velocity",
+                ],
+                automations=[
+                    "Reset lab environment",
+                    "Schedule lab session",
+                ],
+            ),
+            CommandCenterTab(
+                title="Sandbox Arcade",
+                focus="Self-service sandboxes",
+                description="Provide safe sandboxes with guardrails for experimentation.",
+                highlights=[
+                    "Active sandboxes",
+                    "Quota usage",
+                    "Auto-teardown",
+                ],
+                automations=[
+                    "Provision sandbox",
+                    "Extend expiry",
+                ],
+            ),
+            CommandCenterTab(
+                title="Reskilling Portal",
+                focus="Skills development",
+                description="Align training plans, certifications, and skill matrices.",
+                highlights=[
+                    "Certification progress",
+                    "Skill coverage",
+                    "Training backlog",
+                ],
+                automations=[
+                    "Assign learning path",
+                    "Publish knowledge check",
+                ],
+            ),
+            CommandCenterTab(
+                title="Blueprint Clinic",
+                focus="Blueprint modernization",
+                description="Modernize aging blueprints and align with platform north star.",
+                highlights=[
+                    "Modernization queue",
+                    "Tech debt score",
+                    "Adoption blockers",
+                ],
+                automations=[
+                    "Kickoff modernization",
+                    "Notify architecture guild",
+                ],
+            ),
+            CommandCenterTab(
+                title="Telemetry Exchange",
+                focus="Telemetry sharing",
+                description="Broker telemetry access across teams with governance and curation.",
+                highlights=[
+                    "Data contracts",
+                    "Access catalog",
+                    "Usage insights",
+                ],
+                automations=[
+                    "Approve data share",
+                    "Revoke dataset",
+                ],
+            ),
+            CommandCenterTab(
+                title="Compliance Signals",
+                focus="Compliance observability",
+                description="Visualize compliance signals blended with operational telemetry.",
+                highlights=[
+                    "Signal coverage",
+                    "Alert fatigue",
+                    "Control ownership",
+                ],
+                automations=[
+                    "Tune compliance signal",
+                    "Assign remediation",
+                ],
+            ),
+            CommandCenterTab(
+                title="AI Playbooks",
+                focus="AI playbook governance",
+                description="Curate AI-assisted playbooks with safe rollout and measurement.",
+                highlights=[
+                    "Playbook adoption",
+                    "Success metrics",
+                    "Safety checks",
+                ],
+                automations=[
+                    "Publish AI playbook",
+                    "Request guardrail review",
+                ],
+            ),
+            CommandCenterTab(
+                title="Ops Signals",
+                focus="Operational intelligence",
+                description="Combine leading indicators into proactive operational signal board.",
+                highlights=[
+                    "Leading indicators",
+                    "Burn rate",
+                    "Signal ownership",
+                ],
+                automations=[
+                    "Create response plan",
+                    "Alert owning team",
+                ],
+            ),
+            CommandCenterTab(
+                title="Blueprint Radar",
+                focus="Blueprint monitoring",
+                description="Monitor blueprint compliance, drift, and adoption insights.",
+                highlights=[
+                    "Blueprint drift",
+                    "Adoption maturity",
+                    "Exception queue",
+                ],
+                automations=[
+                    "Issue drift fix",
+                    "Approve exception",
+                ],
+            ),
+            CommandCenterTab(
+                title="Platform Signals",
+                focus="Platform signal intelligence",
+                description="Unified signal board for platform KPIs across domains.",
+                highlights=[
+                    "Availability",
+                    "Satisfaction",
+                    "Adoption",
+                ],
+                automations=[
+                    "Escalate platform risk",
+                    "Share executive digest",
+                ],
+            ),
+            CommandCenterTab(
+                title="Governance HQ",
+                focus="Governance office",
+                description="Align policies, councils, and metrics for platform governance.",
+                highlights=[
+                    "Council actions",
+                    "Policy lifecycle",
+                    "Exception backlog",
+                ],
+                automations=[
+                    "Schedule governance review",
+                    "Escalate policy gap",
+                ],
+            ),
+        ]
+        state.codebase_profiles = [
+            CodebaseProfile("Northwind Logistics", "Enterprise", "Avery Castillo", "Remy Zhao", 18, 94),
+            CodebaseProfile("Helios Energy", "Upper Mid-Market", "Jordan Singh", "Morgan Lee", 12, 88),
+            CodebaseProfile("Nebula Retail", "Digital Native", "Dakota Silva", "Kai Morgan", 27, 90),
+            CodebaseProfile("Lumen Analytics", "Enterprise", "Parker Diaz", "Jamie Patel", 21, 92),
         ]
         return state
 
@@ -719,4 +1620,7 @@ __all__ = [
     "DatasetAsset",
     "CodeWorkspace",
     "AdvancedFeature",
+    "CommandCenterTab",
+    "CodebaseModule",
+    "CodebaseProfile",
 ]

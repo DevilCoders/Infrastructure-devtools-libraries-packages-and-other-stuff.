@@ -3,7 +3,8 @@ from __future__ import annotations
 
 from typing import Iterable
 
-from PySide6 import QtCore, QtWidgets
+from PyQt6 import QtWidgets
+from PyQt6.QtCore import Qt
 
 from ...core.state import AIAssistant
 
@@ -29,7 +30,7 @@ class AIAssistantPanel(QtWidgets.QWidget):
         layout.addWidget(header)
 
         splitter = QtWidgets.QSplitter(self)
-        splitter.setOrientation(QtCore.Qt.Horizontal)
+        splitter.setOrientation(Qt.Orientation.Horizontal)
 
         roster = QtWidgets.QListWidget(splitter)
         roster.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
@@ -43,7 +44,7 @@ class AIAssistantPanel(QtWidgets.QWidget):
             item = QtWidgets.QListWidgetItem(
                 f"{assistant.name} — {assistant.specialization.title()}"
             )
-            item.setData(QtWidgets.Qt.UserRole, assistant)
+            item.setData(Qt.ItemDataRole.UserRole, assistant)
             roster.addItem(item)
 
         roster.currentItemChanged.connect(
@@ -56,7 +57,7 @@ class AIAssistantPanel(QtWidgets.QWidget):
         layout.addWidget(splitter)
 
     def _render_assistant(self, item: QtWidgets.QListWidgetItem | None) -> str:
-        assistant = item.data(QtWidgets.Qt.UserRole) if item else None
+        assistant = item.data(Qt.ItemDataRole.UserRole) if item else None
         if not assistant:
             return ""
         return (
