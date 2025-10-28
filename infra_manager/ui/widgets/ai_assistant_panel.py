@@ -11,6 +11,8 @@ from ...core.state import AIAssistant
 class AIAssistantPanel(QtWidgets.QWidget):
     """Display the available custom AI copilots."""
 
+    ASSISTANT_ROLE = QtCore.Qt.ItemDataRole.UserRole
+
     def __init__(self, assistants: Iterable[AIAssistant]):
         super().__init__()
         self._assistants = list(assistants)
@@ -43,12 +45,11 @@ class AIAssistantPanel(QtWidgets.QWidget):
             item = QtWidgets.QListWidgetItem(
                 f"{assistant.name} — {assistant.specialization.title()}"
             )
-            item.setData(QtCore.Qt.UserRole, assistant)
+            item.setData(self.ASSISTANT_ROLE, assistant)
             roster.addItem(item)
 
-        roster.currentItemChanged.connect(
-            lambda current, _: detail.setHtml(self._render_assistant(current))
-        )
+        roster.currentItemChanged.connect(self._on_roster_selection_changed)
+        self._detail = detail
 
         if roster.count():
             roster.setCurrentRow(0)
@@ -56,7 +57,7 @@ class AIAssistantPanel(QtWidgets.QWidget):
         layout.addWidget(splitter)
 
     def _render_assistant(self, item: QtWidgets.QListWidgetItem | None) -> str:
-        assistant = item.data(QtCore.Qt.UserRole) if item else None
+        assistant = item.data(self.ASSISTANT_ROLE) if item else None
         if not assistant:
             return ""
         return (
@@ -67,6 +68,14 @@ class AIAssistantPanel(QtWidgets.QWidget):
             "<p>Trigger assistants via chat, slash commands, or automation hooks "
             "and they will coordinate with the AI orchestration service.</p>"
         )
+
+    def _on_roster_selection_changed(
+        self, current: QtWidgets.QListWidgetItem | None, _: QtWidgets.QListWidgetItem | None
+    ) -> None:
+        """Render assistant details when the selection changes."""
+        if not hasattr(self, "_detail"):
+            return
+        self._detail.setHtml(self._render_assistant(current))
 
 
 __all__ = ["AIAssistantPanel"]
