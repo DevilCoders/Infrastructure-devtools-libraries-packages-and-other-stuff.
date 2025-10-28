@@ -8,6 +8,12 @@ from PySide6 import QtCore, QtWidgets
 from ...core.state import AIAssistant
 
 
+try:  # Qt6 exposes item data roles under Qt.ItemDataRole
+    _USER_ROLE = QtCore.Qt.ItemDataRole.UserRole  # type: ignore[attr-defined]
+except AttributeError:  # pragma: no cover - PySide6 fallback for legacy layout
+    _USER_ROLE = QtCore.Qt.UserRole
+
+
 class AIAssistantPanel(QtWidgets.QWidget):
     """Display the available custom AI copilots."""
 
@@ -43,7 +49,7 @@ class AIAssistantPanel(QtWidgets.QWidget):
             item = QtWidgets.QListWidgetItem(
                 f"{assistant.name} — {assistant.specialization.title()}"
             )
-            item.setData(QtWidgets.Qt.UserRole, assistant)
+            item.setData(_USER_ROLE, assistant)
             roster.addItem(item)
 
         roster.currentItemChanged.connect(
@@ -56,7 +62,7 @@ class AIAssistantPanel(QtWidgets.QWidget):
         layout.addWidget(splitter)
 
     def _render_assistant(self, item: QtWidgets.QListWidgetItem | None) -> str:
-        assistant = item.data(QtWidgets.Qt.UserRole) if item else None
+        assistant = item.data(_USER_ROLE) if item else None
         if not assistant:
             return ""
         return (
