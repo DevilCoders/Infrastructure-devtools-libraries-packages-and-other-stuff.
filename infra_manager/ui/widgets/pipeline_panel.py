@@ -3,13 +3,14 @@ from __future__ import annotations
 
 from typing import Iterable
 
-from PySide6 import QtCore, QtWidgets
+from PyQt6 import QtCore, QtWidgets
+from PyQt6.QtCore import pyqtSignal
 
 
 class PipelinePanel(QtWidgets.QGroupBox):
     """Trigger and monitor pipelines."""
 
-    pipelineTriggered = QtCore.Signal(str)
+    pipelineTriggered = pyqtSignal(str)
 
     def __init__(self, pipelines: Iterable[str]) -> None:
         super().__init__("Pipelines")

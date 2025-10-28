@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import Iterable
 
-from PySide6 import QtCore, QtWidgets
+from PyQt6 import QtCore, QtWidgets
 
 from ...core.state import AIIntegration
 
@@ -55,7 +55,9 @@ class AIIntegrationPanel(QtWidgets.QWidget):
             "AI gateway without downtime."
         )
         footer.setWordWrap(True)
-        footer.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
+        footer.setAlignment(
+            QtCore.Qt.AlignmentFlag.AlignLeft | QtCore.Qt.AlignmentFlag.AlignTop
+        )
         footer.setStyleSheet("color: #C0C0C0;")
         layout.addWidget(footer)
 

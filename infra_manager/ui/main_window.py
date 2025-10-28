@@ -4,10 +4,13 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Iterable
 
-from PySide6 import QtCore, QtGui, QtWidgets
+from PyQt6 import QtCore, QtGui, QtWidgets
 
 from ..core.state import (
     ApplicationState,
+    CodebaseModule,
+    CodebaseProfile,
+    CommandCenterTab,
     ConfigurationTemplate,
     DeploymentProfile,
     Repository,
@@ -16,6 +19,8 @@ from .theme import Theme
 from .widgets.cards import MetricCard
 from .widgets.pipeline_panel import PipelinePanel
 from .widgets.repo_panel import RepositoryPanel
+from .widgets.codebase_manager_panel import CodebaseManagerPanel
+from .widgets.capability_panel import CapabilityPanel
 from .widgets.workflow_panel import WorkflowPanel
 from .widgets.cluster_panel import ClusterPanel
 from .widgets.performance_panel import PerformancePanel
@@ -54,6 +59,7 @@ class MainWindow(QtWidgets.QMainWindow):
         super().__init__()
         self.state = state
         self.theme = theme
+        self._command_center_lookup: dict[int, CommandCenterTab] = {}
 
         self.setWindowTitle("Infra Manager Studio")
         self.resize(1400, 900)
@@ -74,8 +80,10 @@ class MainWindow(QtWidgets.QMainWindow):
         layout.setContentsMargins(0, 0, 0, 0)
 
         self.tabs = QtWidgets.QTabWidget(central)
+        self._command_center_lookup.clear()
         self.tabs.addTab(self._create_overview_tab(), "Overview")
         self.tabs.addTab(self._create_repository_tab(), "Repositories")
+        self.tabs.addTab(self._create_codebase_manager_tab(), "Codebase Manager")
         self.tabs.addTab(self._create_pipeline_tab(), "Pipelines")
         self.tabs.addTab(self._create_workflow_tab(), "Workflows")
         self.tabs.addTab(self._create_performance_tab(), "Performance")
@@ -106,6 +114,14 @@ class MainWindow(QtWidgets.QMainWindow):
         self.tabs.addTab(self._create_cost_tab(), "Cost")
         self.tabs.addTab(self._create_tenant_tab(), "Tenants")
         self.tabs.addTab(self._create_logging_tab(), "Logging")
+
+        for descriptor in self.state.command_center_tabs:
+            widget = self._create_command_center_tab(descriptor)
+            index = self.tabs.addTab(widget, descriptor.title)
+            self.tabs.setTabToolTip(index, descriptor.description)
+            self._command_center_lookup[index] = descriptor
+
+        self.tabs.currentChanged.connect(self._handle_tab_changed)
 
         layout.addWidget(self.tabs)
         self.setCentralWidget(central)
@@ -143,6 +159,15 @@ class MainWindow(QtWidgets.QMainWindow):
     def _create_repository_tab(self) -> QtWidgets.QWidget:
         panel = RepositoryPanel(self.state.repositories.values())
         panel.repositorySelected.connect(self._on_repository_selected)
+        return panel
+
+    def _create_codebase_manager_tab(self) -> QtWidgets.QWidget:
+        panel = CodebaseManagerPanel(
+            self.state.codebase_modules,
+            self.state.codebase_profiles,
+        )
+        panel.moduleSelected.connect(self._on_codebase_module_selected)
+        panel.profileSaved.connect(self._on_codebase_profile_saved)
         return panel
 
     def _create_pipeline_tab(self) -> QtWidgets.QWidget:
@@ -245,6 +270,9 @@ class MainWindow(QtWidgets.QMainWindow):
     def _create_ai_lab_tab(self) -> QtWidgets.QWidget:
         return AILabPanel(self.state.ai_training_profiles, self.state.dataset_assets)
 
+    def _create_command_center_tab(self, descriptor: CommandCenterTab) -> QtWidgets.QWidget:
+        return CapabilityPanel(descriptor)
+
     # ------------------------------------------------------------------
     def _create_toolbar(self) -> None:
         toolbar = QtWidgets.QToolBar("Quick Actions", self)
@@ -309,24 +337,30 @@ class MainWindow(QtWidgets.QMainWindow):
         animation.setStartValue(0.0)
         animation.setEndValue(1.0)
         animation.setEasingCurve(QtCore.QEasingCurve.InOutQuad)
-        animation.start(QtCore.QAbstractAnimation.DeleteWhenStopped)
+        animation.start(
+            QtCore.QAbstractAnimation.DeletionPolicy.DeleteWhenStopped
+        )
 
     def _animate_palette(self) -> None:
         animation = QtCore.QVariantAnimation(self)
         animation.setDuration(600)
-        start_color = QtGui.QColor(self.palette().color(QtGui.QPalette.Window))
+        start_color = QtGui.QColor(
+            self.palette().color(QtGui.QPalette.ColorRole.Window)
+        )
         end_color = QtGui.QColor(self.theme.background_color)
         animation.setStartValue(start_color)
         animation.setEndValue(end_color)
 
         def update(value: QtGui.QColor) -> None:
             palette = self.palette()
-            palette.setColor(QtGui.QPalette.Window, value)
+            palette.setColor(QtGui.QPalette.ColorRole.Window, value)
             self.setPalette(palette)
 
         animation.valueChanged.connect(update)
         animation.finished.connect(lambda: self.theme.apply(self))
-        animation.start(QtCore.QAbstractAnimation.DeleteWhenStopped)
+        animation.start(
+            QtCore.QAbstractAnimation.DeletionPolicy.DeleteWhenStopped
+        )
 
     # ------------------------------------------------------------------
     def _on_repository_selected(self, repository: Repository) -> None:
@@ -350,6 +384,26 @@ class MainWindow(QtWidgets.QMainWindow):
         self.statusBar().showMessage(
             f"Loaded configuration template: {template.name} ({template.version})", 5000
         )
+
+    def _on_codebase_module_selected(self, module: CodebaseModule) -> None:
+        self.statusBar().showMessage(
+            f"Focused module: {module.name} owned by {module.owner}",
+            5000,
+        )
+
+    def _on_codebase_profile_saved(self, profile: CodebaseProfile) -> None:
+        self.statusBar().showMessage(
+            f"Saved profile for {profile.company} targeting {profile.market_tier}",
+            5000,
+        )
+
+    def _handle_tab_changed(self, index: int) -> None:
+        descriptor = self._command_center_lookup.get(index)
+        if descriptor:
+            self.statusBar().showMessage(
+                f"Viewing {descriptor.title}: {descriptor.focus}",
+                5000,
+            )
 
 
 __all__ = ["MainWindow"]

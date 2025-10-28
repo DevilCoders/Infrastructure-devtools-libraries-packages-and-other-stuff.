@@ -3,7 +3,8 @@ from __future__ import annotations
 
 from typing import Iterable
 
-from PySide6 import QtCore, QtWidgets
+from PyQt6 import QtCore, QtWidgets
+from PyQt6.QtCore import pyqtSignal
 
 from ...core.state import DeploymentProfile
 
@@ -11,7 +12,7 @@ from ...core.state import DeploymentProfile
 class DeploymentPanel(QtWidgets.QGroupBox):
     """Coordinate local deployment orchestration."""
 
-    deploymentRequested = QtCore.Signal(DeploymentProfile)
+    deploymentRequested = pyqtSignal(DeploymentProfile)
 
     def __init__(self, profiles: Iterable[DeploymentProfile]) -> None:
         super().__init__("Local Deployment")
