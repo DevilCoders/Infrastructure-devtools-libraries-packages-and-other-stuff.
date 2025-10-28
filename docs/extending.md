@@ -5,7 +5,7 @@ architecture or aesthetics.
 
 ## Add a New Automation Provider
 
-1. Create a class implementing `PipelineClient` in `src/infra_manager/services`.
+1. Create a class implementing `PipelineClient` in `infra_manager/services`.
 2. Connect the implementation to the `pipelineTriggered` signal from
    `PipelinePanel`.
 3. Display execution updates in `PipelinePanel.log_view` or route them to a
@@ -86,7 +86,7 @@ architecture or aesthetics.
 
 - Use `fbs`, `PyInstaller`, or `Briefcase` to generate platform-specific
   installers.
-- Include `PySide6` in the build requirements and set the entry point to
+- Include `PyQt6` in the build requirements and set the entry point to
   `infra_manager.app:main`.
 
 ## Testing Strategy

@@ -1,6 +1,6 @@
 # Infra Manager Studio
 
-Infra Manager Studio is a PySide6 based desktop application that brings a
+Infra Manager Studio is a PyQt6 based desktop application that brings a
 feature rich command center to infrastructure mono-repositories. The
 application focuses on GitHub and GitLab automation, CI/CD pipeline
 observability, and workflow orchestration within a cohesive hacker-inspired
@@ -42,7 +42,31 @@ Add the `--background <path>` argument to apply a custom background image that
 fills the window.
 
 The repository ships with a simulated state. Integrations with GitHub and
-GitLab can be implemented via the service layer in `src/infra_manager/services`.
+GitLab can be implemented via the service layer in `infra_manager/services`.
+
+## Packaging with auto-py-to-exe
+
+1. Install the project in a virtual environment with the optional packaging
+   tools:
+
+   ```bash
+   pip install .[dev]
+   ```
+
+2. Launch the auto-py-to-exe interface:
+
+   ```bash
+   python -m auto_py_to_exe
+   ```
+
+3. Choose `launch_infra_manager.py` as the script to package. This thin wrapper
+   guarantees PyInstaller discovers the package resources and entry point.
+
+4. Under *Advanced* > *Additional Hooks*, add `--collect-all infra_manager.ui`
+   so the embedded stylesheet is available at runtime.
+
+5. Build the executable. The resulting bundle will render the redesigned neon
+   interface and leverage the PyQt6 runtime declared in `pyproject.toml`.
 
 ## Documentation
 
@@ -51,6 +75,7 @@ Additional documentation can be found in the [`docs/`](docs) directory:
 - [Architecture](docs/architecture.md)
 - [Extending the Application](docs/extending.md)
 - [Theming Guide](docs/theme.md)
+- [Desktop Packaging](docs/packaging.md)
 - [Automation & Jobs](docs/automation.md)
 - [Scheduling & Batch Operations](docs/scheduling.md)
 - [Advanced Feature Catalog](docs/features.md)

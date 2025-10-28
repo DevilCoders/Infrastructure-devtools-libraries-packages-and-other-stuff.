@@ -1,0 +1,28 @@
+[project]
+name = "infra-manager"
+version = "0.1.0"
+description = "Neon-grade Infrastructure Manager control center built with PyQt6"
+requires-python = ">=3.10"
+authors = [
+  { name = "Infrastructure Team" }
+]
+readme = "README.md"
+dependencies = [
+  "PyQt6>=6.5",
+]
+
+[project.optional-dependencies]
+dev = [
+  "auto-py-to-exe>=2.36",
+]
+
+[project.scripts]
+infra-manager = "infra_manager.app:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["infra_manager*"]
+
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
